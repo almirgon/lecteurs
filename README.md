@@ -10,8 +10,10 @@ O Lecteurs é uma aplicação web que imita uma rede social para leitores compar
 
 * Cadastro de usuários
 * Autenticação de usuários
-* Compartilhamento de review com titulo, texto, nota e imagem (opcional)
+* Compartilhamento de review com titulo, texto, nota e imagem
 * Atribuição de nota a um livro (Apenas usuário logado)
 * Curtidas e comentários (Apenas usuários com cadastro)
 * Visualização de perfil (Qualquer usuário)
 * Feed para compartilhamento das reviews 
+* Filtrar por nota 
+* Busca por nome ou autor
