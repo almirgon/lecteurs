@@ -1,0 +1,14 @@
+{
+  "name": "lecteurs",
+  "version": "1.0.0",
+  "description": "O Lecteurs é uma aplicação web que imita uma rede social para leitores compartilharem suas reviews sobre livros que leram.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Almir Crispiniano",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
