@@ -1,4 +1,4 @@
-# lecteurs
+# lecteurs 📚
 
 <a>
   <img align="center"  height='150px' src="logo.svg" />
