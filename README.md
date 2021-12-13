@@ -16,7 +16,7 @@ O Lecteurs é uma aplicação web que imita uma rede social para leitores compar
 * Visualização de perfil (Qualquer usuário)
 * Feed para compartilhamento das reviews 
 * Filtrar por nota 
-* Busca por nome ou autor
+* Buscar por título ou autor
 
 ## Telas
 
@@ -24,3 +24,4 @@ O Lecteurs é uma aplicação web que imita uma rede social para leitores compar
 * Modal: Cada card do feed abre um modal que apresenta o texto completo junto a lista de comentários que aquela review possui. Um usuário logado pode comentar ou curtir a review, e o usuário dono da review pode editar ou exclui-la.
 * Tela de Login/Cadastro: Ao clicar no botão no header um usuário entra em uma página para logar ou criar um cadastro no lectures. 
 * Tela de postagem: Tela com um form, na qual um usuário logado pode postar suas reviews no feed
+* Tela de Perfil: Tela com infomações básicas do usuário junto a uma lista de reviews que ele postou no feed
