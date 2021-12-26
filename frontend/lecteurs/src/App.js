@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Like from "./components/Like";
+import CommentsNumber from "./components/CommentsNumber";
 
 function App() {
   const [likes, setLikes] = useState(0);
@@ -39,7 +40,8 @@ function App() {
             voluptas optio nesciunt deleniti....
           </p>
           <span>
-            <Like likes={likes} setLikes={setLikes}>Curtir</Like> <button>Comentar</button>
+            <Like likes={likes} setLikes={setLikes}>Curtir</Like> 
+            <CommentsNumber/>
           </span>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: '33%', alignItems: 'center', justifyContent: 'center'}}>
@@ -62,7 +64,8 @@ function App() {
             voluptas optio nesciunt deleniti....
           </p>
           <span>
-            <Like likes={likes} setLikes={setLikes}>Curtir</Like> <button>Comentar</button>
+            <Like likes={likes} setLikes={setLikes}>Curtir</Like> 
+            <CommentsNumber/>
           </span>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: '33%', alignItems: 'center', justifyContent: 'center'}}>
@@ -85,7 +88,8 @@ function App() {
             voluptas optio nesciunt deleniti....
           </p>
           <span>
-            <Like likes={likes} setLikes={setLikes}>Curtir</Like> <button>Comentar</button>
+            <Like likes={likes} setLikes={setLikes}>Curtir</Like>
+            <CommentsNumber/>
           </span>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: '33%', alignItems: 'center', justifyContent: 'center'}}>
@@ -107,7 +111,8 @@ function App() {
             voluptas optio nesciunt deleniti....
           </p>
           <span>
-            <Like likes={likes} setLikes={setLikes}>Curtir</Like> <button>Comentar</button>
+            <Like likes={likes} setLikes={setLikes}>Curtir</Like>
+            <CommentsNumber/>
           </span>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: '33%', alignItems: 'center', justifyContent: 'center'}}>
@@ -130,7 +135,8 @@ function App() {
             voluptas optio nesciunt deleniti....
           </p>
           <span>
-            <Like likes={likes} setLikes={setLikes}>Curtir</Like> <button>Comentar</button>
+            <Like likes={likes} setLikes={setLikes}>Curtir</Like>
+            <CommentsNumber/>
           </span>
         </div>
       </div>
