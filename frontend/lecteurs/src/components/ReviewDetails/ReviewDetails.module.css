@@ -1,0 +1,10 @@
+.modalInfo{
+  grid-column: 2;
+  overflow-y: auto;
+  word-break: break-word;
+  text-align: justify;
+  max-height: 37.5rem;
+  display: grid;
+  gap: 0.5rem;
+
+}

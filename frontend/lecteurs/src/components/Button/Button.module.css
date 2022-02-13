@@ -1,0 +1,26 @@
+.button{
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.4rem;
+  box-shadow: 0 4px 8px rgba(30, 60, 90, 0.2);
+  background: #013896;
+  color: aliceblue;
+  padding: 0.8rem 1.2rem;
+  box-sizing: border-box;
+  transition: 0.2s;
+  min-width: 8rem;
+  margin: 0.5rem 0;
+}
+
+.button:hover, .button:focus{
+  outline: none;
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.button:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: scale(1);
+}

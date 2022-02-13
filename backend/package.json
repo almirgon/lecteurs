@@ -4,11 +4,15 @@
   "description": "O Lecteurs é uma aplicação web que imita uma rede social para leitores compartilharem suas reviews sobre livros que leram.",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Almir Crispiniano",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^16.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.2.1",
+    "nodemon": "^2.0.15"
   }
 }

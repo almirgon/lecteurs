@@ -1,0 +1,31 @@
+.modalReview{
+  grid-column: 3;
+  padding-right: 0.5rem;
+  overflow-y: auto;
+  word-break: break-word;
+  text-align: justify;
+  max-height: 35rem;
+  border-left: 1px solid #CCCCCC;
+  padding-left: 1rem;
+}
+
+.reviewTitle{
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem;
+}
+
+
+.closeButton{
+  cursor: pointer;
+  position: absolute;
+  z-index: 1000;
+  top: -25px;
+  transition: all 0.3s;
+  right: 0px;
+}
+
+.closeButton:hover{
+  opacity: 0.7;
+}
