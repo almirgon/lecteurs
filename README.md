@@ -12,7 +12,7 @@ O Lecteurs é uma aplicação web que imita uma rede social para leitores compar
 * Autenticação de usuários
 * Compartilhamento de review com titulo, texto, nota e imagem
 * Atribuição de nota a um livro (Apenas usuário logado)
-* Curtidas e comentários (Apenas usuários com cadastro)
+* Curtidas (Apenas usuários com cadastro)
 * Visualização de perfil (Qualquer usuário)
 * Feed para compartilhamento das reviews 
 * Filtrar por nota 
@@ -21,7 +21,13 @@ O Lecteurs é uma aplicação web que imita uma rede social para leitores compar
 ## Telas
 
 * Tela inicial (Feed): Formada por cards clicaveis que representam uma review com titulo, texto (Resumo de 200 caracteres), nota e imagem e usário que a publicou. Além disso, a tela de feed irá ter um filtro por nota e uma barra de busca (autor ou livro)
-* Modal: Cada card do feed abre um modal que apresenta o texto completo junto a lista de comentários que aquela review possui. Um usuário logado pode comentar ou curtir a review, e o usuário dono da review pode editar ou exclui-la.
+* Modal: Cada card do feed abre um modal que apresenta o texto completo junto ao resumo do livro. Um usuário logado pode curtir a review, e o usuário dono da review pode exclui-la.
 * Tela de Login/Cadastro: Ao clicar no botão no header um usuário entra em uma página para logar ou criar um cadastro no lectures. 
 * Tela de postagem: Tela com um form, na qual um usuário logado pode postar suas reviews no feed
-* Tela de Perfil: Tela com informações básicas do usuário, junto a uma lista de reviews que ele postou no feed
+* Tela de Pesquisa: Formada por um card clicavel que representam a review encontrada
+
+## Aplicação 
+
+![Scketch](prints/feed.png)
+![Scketch](prints/modal.png)
+![Scketch](prints/searchPage.png)
