@@ -29,5 +29,5 @@ O Lecteurs é uma aplicação web que imita uma rede social para leitores compar
 ## Aplicação 
 
 <img src="prints/feed.png" />
-![image](prints/modal.png)
+[image](prints/modal.png)
 ![Scketch](prints/searchPage.png)
