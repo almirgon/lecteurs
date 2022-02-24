@@ -8,6 +8,7 @@ const Header = () => {
     <header className={styles.header}>
       <nav className={`${styles.nav} container`}>
         <Link className={styles.logo} to="/"><Logo/></Link>
+        <Link className={styles.loginButton} to="/review">Cadastrar Review</Link>
       </nav>
     </header>
   );

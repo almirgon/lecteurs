@@ -1,42 +1,89 @@
-let users = [
-  {
-    id: 1,
-    username: "@almirgon",
-    firstName: "Almir",
-    lastName: "Crispiniano",
-    email: "almir.crispiniano@gmail.com",
-    password: "12345",
-  },
-  {
-    id: 2,
-    username: "@luabdn",
-    firstName: "Luana",
-    lastName: "Barbosa",
-    email: "lua@gmail.com",
-    password: "123456",
-  },
-];
+const mysql = require("../mysql");
+const bcrypt = require("bcrypt");
 
-const getUsers = (req,res) => {
-  return res.status(200).json(users);
+
+exports.createUser = async (req, res, next) => {
+  try {
+    const query = `INSERT INTO User (firstName, lastName, username, email, password) VALUES (?,?,?,?,?)`;
+    const queryEmail = "SELECT * FROM User WHERE email = ?";
+    const queryUsername = "SELECT * FROM User WHERE username = ?";
+
+    const resultsEmail = await mysql.execute(queryEmail, [req.body.email]);
+    if (resultsEmail.length > 0) {
+      return res.status(409).send({message: "Email já existe"});
+    }
+    const resultsUsername = await mysql.execute(queryUsername, [
+      req.body.username,
+    ]);
+    if (resultsUsername.length > 0) {
+      return res.status(409).send({message: "Username já existe"});
+    }
+
+    const results = await mysql.execute(query, [
+      req.body.firstName,
+      req.body.lastName,
+      req.body.username,
+      req.body.email,
+      bcrypt.hashSync(req.body.password, 10),
+    ]);
+
+    return res.status(201).send({
+      message: "Usuário criado com sucesso",
+      response: {
+        user: {
+          id_user: results.insertId,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+        },
+      },
+    });
+  } catch (error) {
+    return res.status(500).send({error: error});
+  }
 };
 
-const getUserById = (req, res) => {
-  const {id} = req.params;
-  const user = users.findIndex(item => item.id == id);
-  console.log(user);
-  return res.status(200).json(users[user]);
+exports.editUser = async (req, res, next) => {
+  try {
+    const query = `UPDATE User set firstName = ?, lastName = ?, username = ?, email = ?, password = ? WHERE idUser = ?`;
+    await mysql.execute(query, [
+      req.body.firstName,
+      req.body.lastName,
+      req.body.username,
+      req.body.email,
+      req.body.password,
+      req.params.id,
+    ]);
+    return res.status(201).send({
+      mensagem: "Dados do Usuário alterados com sucesso",
+    });
+  } catch (error) {
+    return res.status(500).send({
+      error: error,
+    });
+  }
 };
 
-const createUser = (req, res) => {
-  let user = req.body;
-  user = { id: users.length + 1, ...user};
-  users.push(user);
-  return res.status(201).json(user);
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const query = `DELETE FROM User WHERE idUser = ?`;
+    await mysql.execute(query, [req.params.id]);
+    return res.status(202).send({message: "Usuário excluído com sucesso"});
+  } catch (error) {
+    return res.status(500).send({error: error});
+  }
 };
 
-module.exports = {
-  getUsers,
-  getUserById,
-  createUser,
+exports.getUser = async (req, res, next) => {
+ 
+  try {
+    const query = `SELECT idUser,firstName,lastName,username,email FROM User WHERE idUser = ?`;
+    const result = await mysql.execute(query, [req.params.id]);
+    if (result.length === 0) {
+      return res.status(404).send({message: "Nenhum usuário encontrado"});
+    }
+    return res.status(200).send({response: result});
+  } catch (error) {
+    return res.status(500).send({error: error});
+  }
 };
