@@ -1,23 +1,41 @@
 const mysql = require("../mysql");
 const jwt = require("jsonwebtoken");
+const AWS = require('aws-sdk');
+const { uuid } = require('uuidv4');
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+});
+
 
 exports.getAllReviews = async (req, res, next) => {
   try {
-    const query = `select idReview, tittle, author, resume, review, note,photo,username from Review r left join User u on r.user = u.idUser order by idReview desc`;
+    const query = `select idReview, tittle, author, resume,photo,username, postDate, (select count(*) from Likes l where l.idReview = r.idReview) as likes
+    from Review r left join User u on r.user = u.idUser order by idReview desc`;
     const results = await mysql.execute(query);
     if (results.length === 0) {
       return res.status(404).send({message: "Nenhum resultado encontrado"});
     }
-    const coisa = results.map(async (item) => {
 
-      const userQuery = `SELECT * FROM User WHERE idUser = ?`;
-      const resultUser = await mysql.execute(userQuery, [item.user]);
-      
-      return resultUser })
-      console.log(coisa)
     return res.status(200).send({response: results});
   } catch (error) {
-    console.log(error)
+    return res.status(500).send({error: error});
+  }
+};
+
+exports.getReview = async (req, res, next) => {
+  try {
+    const query = `select idReview, tittle, author, resume, review, note,photo,username, postDate, (select count(*) from Likes l where l.idReview = r.idReview) as likes
+    from Review r left join User u on r.user = u.idUser where r.idReview = ?`;
+    const result = await mysql.execute(query, [
+      req.params.id,
+    ]);
+    if (result.length === 0) {
+      return res.status(404).send({message: "Nenhum resultado encontrado"});
+    }
+    return res.status(200).send({response: result});
+  } catch (error) {
     return res.status(500).send({error: error});
   }
 };
@@ -27,7 +45,7 @@ exports.postReview = async (req, res, next) => {
   const token = usertoken.split(' ');
   const decoded = jwt.verify(token[1], process.env.JWT_KEY);
   try {
-    const query = `INSERT INTO Review (tittle, author, resume, note, review, photo, user) VALUES (?,?,?,?,?,?,?)`;
+    const query = `INSERT INTO Review (tittle, author, resume, note, review, photo, postDate, user) VALUES (?,?,?,?,?,?,?, ?)`;
     const result = await mysql.execute(query, [
       req.body.tittle,
       req.body.author,
@@ -35,6 +53,7 @@ exports.postReview = async (req, res, next) => {
       req.body.note,
       req.body.review,
       req.body.photo,
+      new Date(),
       decoded.idUser
     ]);
     return res.status(201).send({
@@ -44,7 +63,6 @@ exports.postReview = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.log(error)
     return res.status(500).send({
       error: error,
     });
@@ -88,3 +106,48 @@ exports.searchReview = async (req, res, next) => {
     return res.status(500).send({error: error});
   }
 };
+
+exports.uploadBookCover = (req,res,next) => {
+    const myFile = req.file.originalname.split(".")
+    const fileType = myFile[myFile.length - 1]
+
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: `lecteurs-book-cover-${uuid()}.${fileType}`,
+      Body: req.file.buffer
+    }
+    s3.upload(params, (error, data) => {
+      if (error) {
+        res.status(500).send(error)
+    }
+    res.status(200).send(data)
+    });
+}
+
+exports.likeReview = async (req,res,next) => {
+  const usertoken = req.headers.authorization;
+    const token = usertoken.split(' ');
+    const decoded = jwt.verify(token[1], process.env.JWT_KEY);
+  try {
+    const query = `INSERT INTO Likes (idUser,idReview) VALUES (?,?)`;
+    await mysql.execute(query, [
+      decoded.idUser,
+      req.params.id,
+    ]);
+  } catch (error) {
+    if(error.code === "ER_DUP_ENTRY"){
+      const query = `DELETE FROM Likes WHERE IdUser = ? and IdReview = ?`
+      await mysql.execute(query, [
+        decoded.idUser,
+        req.params.id,
+      ])
+    }else{
+      return res.status(500).send({error: error});
+    }
+  }
+  const queryLikes = `SELECT count(*) as likes FROM Likes where idReview = ?`
+    const resultLike = await mysql.execute(queryLikes,[
+      req.params.id
+    ])
+  return res.status(200).send(resultLike)
+}

@@ -1,25 +1,21 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const userRoute = require('./routes/UserRoute')
-const reviewRoute = require('./routes/ReviewRoute')
+const userRoute = require('./routes/userRoute')
+const reviewRoute = require('./routes/reviewRoute')
+const loginRoute = require('./routes/loginRoute')
+const cors = require('cors');
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use((req,res,next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Header', 'Origin, Content-Type, X-Requested-With, Accept, Authorization')
-  if(req.method === 'OPTIONS'){ 
-  res.header('Access-Control-Allow-Methods', 'PUT,POST,PATCH,DELETE,GET') 
-  return res.status(200).send({})}
+app.use(cors());
 
-  next()
-})
 app.use('/user', userRoute);
-
 app.use('/review', reviewRoute);
+app.use('/login', loginRoute);
 
 app.use((req,res,next) => {
   const erro = new Error("Rota não encontrada")
@@ -35,7 +31,6 @@ app.use((error,req,res,next) => {
     }
   })
 })
-
 
 
 module.exports = app;
