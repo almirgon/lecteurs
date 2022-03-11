@@ -18,7 +18,7 @@ const Modal = ({item, close}) => {
       <div className={styles.modalContainer}>
         <ReviewPhoto photo={item.photo} name={item.name} />
         <ReviewDetails name={item.name} author={item.author} user={item.user} resume={item.resume}/>
-        <Review close={close} stars={item.note} review={item.review} />
+        <Review close={close} stars={item.stars} review={item.review} />
       </div>
     </section>
   );

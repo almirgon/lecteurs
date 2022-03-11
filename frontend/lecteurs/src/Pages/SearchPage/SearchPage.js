@@ -3,7 +3,6 @@ import {useLocation} from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import Card from "../../components/Card/Card";
 import Modal from "../../components/Modal/Modal";
-import reviewService from "../../services/reviewService";
 
 const SearchPage = () => {
   const query = new URLSearchParams(useLocation().search);
@@ -209,15 +208,23 @@ const SearchPage = () => {
   ];
 
   useEffect(() => {
-    reviewService.searchReview(queryResult).then((response) => {
-      setResults([...response?.data?.response])
-    })
-    
+    console.log(results.length);
+
+    if (queryResult !== "") {
+      const filteredData = mock.filter(item => {
+        return (
+          item.author.toLowerCase().includes(queryResult.toLowerCase()) ||
+          item.name.toLowerCase().includes(queryResult.toLowerCase())
+        );
+      });
+      setResults(filteredData);
+    } else {
+      setResults(mock);
+    }
   }, [queryResult]);
 
   return (
     <section>
-      <p>{console.log(results)}</p>
       <h2>Resultados da pesquisa</h2>
       {results.length > 0 ? (
         results.map((item, index) => {

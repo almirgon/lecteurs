@@ -1,0 +1,7 @@
+.like {
+  z-index: 1000;
+  cursor: pointer;
+  color: #666666;
+  align-items: center;
+  display: flex;
+}

@@ -3,15 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import Card from "../Card/Card";
 import Modal from "../Modal/Modal";
 import useWindowSize from "../../hooks/useResize";
-import reviewService from "../../services/reviewService";
-import Loading from "../Loading/Loading";
 
 
 const Feed = () => {
   const [selectedItem, setSelectedItem] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [reviews,setReviews] = useState([])
   const navigate  = useNavigate();
 
   const size = useWindowSize()
@@ -35,7 +31,7 @@ const Feed = () => {
       author: "Carlos Ruiz Zafón",
       photo: "https://images-na.ssl-images-amazon.com/images/I/91xOzA3VHtL.jpg",
       date: "03/01/2022",
-      stars: 100,
+      stars: 2,
       user: {
         username: "@almirgon",
       },
@@ -75,7 +71,7 @@ const Feed = () => {
       author: "Stephen King",
       photo: "https://images-na.ssl-images-amazon.com/images/I/71dIjJTeOSL.jpg",
       date: "27/07/2021",
-      stars: 60,
+      stars: 3,
       user: {
         username: "@dudu",
       },
@@ -109,7 +105,7 @@ const Feed = () => {
       photo:
         "https://m.media-amazon.com/images/P/B01LQM96IC.01._SCLZZZZZZZ_SX500_.jpg",
       date: "27/07/2021",
-      stars: 80,
+      stars: 4,
       user: {
         username: "@antunes",
       },
@@ -156,7 +152,7 @@ const Feed = () => {
       author: "George Orwell",
       photo: "https://images-na.ssl-images-amazon.com/images/I/819js3EQwbL.jpg",
       date: "27/07/2021",
-      stars: 20,
+      stars: 2,
       user: {
         username: "@carolmbd_",
       },
@@ -190,7 +186,7 @@ const Feed = () => {
       photo:
         "https://i.pinimg.com/564x/3f/37/fb/3f37fbc161a83e952dfc8f5103f36939.jpg",
       date: "27/07/2021",
-      stars: 100,
+      stars: 5,
       user: {
         username: "@thalytabdn",
       },
@@ -223,7 +219,7 @@ const Feed = () => {
       author: "Carlos Ruiz Zafón",
       photo: "https://images-na.ssl-images-amazon.com/images/I/91xOzA3VHtL.jpg",
       date: "03/01/2022",
-      stars: 100,
+      stars: 1,
       user: {
         username: "@almirgon",
       },
@@ -263,7 +259,7 @@ const Feed = () => {
       author: "Stephen King",
       photo: "https://images-na.ssl-images-amazon.com/images/I/71dIjJTeOSL.jpg",
       date: "27/07/2021",
-      stars: 60,
+      stars: 0,
       user: {
         username: "@dudu",
       },
@@ -297,7 +293,7 @@ const Feed = () => {
       photo:
         "https://m.media-amazon.com/images/P/B01LQM96IC.01._SCLZZZZZZZ_SX500_.jpg",
       date: "27/07/2021",
-      stars: 80,
+      stars: 2,
       user: {
         username: "@antunes",
       },
@@ -781,23 +777,12 @@ const Feed = () => {
     }
   ];
 
-  useEffect(() => {
-    setLoading(true)
-    reviewService.getAllReviews().then((response) => {
-      if(response.status === 200){
-        setReviews(response.data.response)
-      }
-      setLoading(false)
-    })
-  },[])
-
-
 
   return (
     <section>
       <h2>Feed</h2>
-      {loading ? <Loading/> : <div className={'cards animeLeft'}>
-        {reviews.map((item, index) => {
+      <div className={'cards animeLeft'}>
+        {mock.map((item, index) => {
               return (
                 <Card
                   click={() => clickReview(item)}
@@ -808,8 +793,7 @@ const Feed = () => {
               );
             })
           }
-      </div>}
-      
+      </div>
       {showModal && <Modal item={selectedItem} close={setShowModal} /> }
     </section>
   );

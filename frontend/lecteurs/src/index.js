@@ -1,12 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import {UserStorage} from "./context/UserContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <UserStorage>
+      <App />
+    </UserStorage>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root"),
 );
-
-
