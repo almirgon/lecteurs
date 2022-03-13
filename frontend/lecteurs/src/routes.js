@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
-import ReviewPage from "./Pages/Review/ReviewPage";
+import ReviewPage from "./Pages/RegisterReview/ReviewPage";
 import ReviewMobile from "./components/ReviewMobile/ReviewMobile";
 import NotFound from "./Pages/NotFound/NotFound";
 import { UserContext } from "./context/UserContext";

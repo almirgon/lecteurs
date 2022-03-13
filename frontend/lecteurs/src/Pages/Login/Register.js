@@ -1,7 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from "yup";
 import Button from "../../components/Button/Button";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import UserService from "../../services/UserService";
+import AuthService from "../../services/AuthService";
+import { UserContext } from "../../context/UserContext";
 
 const validations = () => {
   return Yup.object().shape({
@@ -41,40 +47,121 @@ const validations = () => {
 };
 
 const Register = () => {
-  const ex = (values) => {
-    delete values.passwordConfirm
-    alert(JSON.stringify(values, null, 2))
-    return values
-  }
+  const swalNotification = withReactContent(Swal);
+  const navigate = useNavigate()
+  const context = useContext(UserContext)
+  const {setUsername, setAuthorized} = context;
+
+  const submit = values => {
+    delete values.passwordConfirm;
+    UserService.createUser(values).then(response => {
+      if (response.status === 201) {
+        swalNotification
+          .fire({
+            title: `${response.data.message}`,
+            html: (
+              <div>
+                <p>
+                  Olá {response.data.response.user.firstName}! Seja bem vindx ao
+                  Lecterus 😀📚
+                </p>
+                <p>
+                  Aqui você poderá compartilhar e ler diferentes reviews de
+                  milhares de livros
+                </p>
+              </div>
+            ),
+            icon: "success",
+            showConfirmButton: true,
+            confirmButtonColor: "rgb(1, 56, 150)",
+            confirmButtonText: "Vamos lá :P",
+          })
+          .then(result => {
+            if (result.isConfirmed) {
+              const credentials = {login: values.email, password: values.password}
+              AuthService.login(credentials).then(response => {
+                if(response.status === 200){
+                  setAuthorized(true)
+                  setUsername(response.data.username)
+                  navigate('/')
+                }
+              }, (err) => {navigate('/')})
+            }
+          });
+      }
+    }, (error) => {console.log(error)});
+  };
   return (
     <section className="animeLeft">
       <h1 className="title">Cadastro</h1>
       <Formik
-        initialValues={{ firstName: "", lastName: "", username: "", email: "", password: "" }}
-        onSubmit={ex}
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          username: "",
+          email: "",
+          password: "",
+          passwordConfirm: "",
+        }}
+        onSubmit={submit}
         validationSchema={validations}
       >
-        {({ isValid,isSubmitting }) => (<Form className="form">
-          <label htmlFor="firstName">Nome</label>
-          <Field className="input" type="text" name="firstName" id="firstName" />
-          <ErrorMessage className="error" name="firstName" component="p"  />
-          <label htmlFor="lastName">Sobrenome</label>
-          <Field className="input" type="text" name="lastName" id="lastName" />
-          <ErrorMessage className="error" name="lastName" component="p" />
-          <label htmlFor="username">Username</label>
-          <Field className="input" type="text" name="username" id="username" />
-          <ErrorMessage className="error" name="username" component="p" />
-          <label htmlFor="email">Email</label>
-          <Field className="input" type="text" name="email" id="email" />
-          <ErrorMessage className="error" name="email" component="p" />
-          <label htmlFor="password">Senha</label>
-          <Field className="input" type="password" name="password" id="password" />
-          <ErrorMessage className="error" name="password" component="p" />
-          <label htmlFor="passwordConfirm">Confirmar Senha</label>
-          <Field className="input" type="password" name="passwordConfirm" id="passwordConfirm" />
-          <ErrorMessage className="error" name="passwordConfirm" component="p" />
-          <Button disabled={isSubmitting || !isValid} type='submit'>Cadastrar</Button>
-        </Form>)}
+        {({isValid, isSubmitting}) => (
+          <Form className="form">
+            <label htmlFor="firstName">Nome</label>
+            <Field
+              className="input"
+              type="text"
+              name="firstName"
+              id="firstName"
+            />
+            <ErrorMessage className="error" name="firstName" component="p" />
+            <label htmlFor="lastName">Sobrenome</label>
+            <Field
+              className="input"
+              type="text"
+              name="lastName"
+              id="lastName"
+            />
+            <ErrorMessage className="error" name="lastName" component="p" />
+            <label htmlFor="username">Username</label>
+            <Field
+              className="input"
+              type="text"
+              name="username"
+              id="username"
+            />
+            <ErrorMessage className="error" name="username" component="p" />
+            <label htmlFor="email">Email</label>
+            <Field className="input" type="text" name="email" id="email" />
+            <ErrorMessage className="error" name="email" component="p" />
+            <label htmlFor="password">Senha</label>
+            <Field
+              className="input"
+              type="password"
+              name="password"
+              id="password"
+              autoComplete="on"
+            />
+            <ErrorMessage className="error" name="password" component="p" />
+            <label htmlFor="passwordConfirm">Confirmar Senha</label>
+            <Field
+              className="input"
+              type="password"
+              name="passwordConfirm"
+              id="passwordConfirm"
+              autoComplete="off"
+            />
+            <ErrorMessage
+              className="error"
+              name="passwordConfirm"
+              component="p"
+            />
+            <Button disabled={isSubmitting || !isValid} type="submit">
+              Cadastrar
+            </Button>
+          </Form>
+        )}
       </Formik>
     </section>
   );
