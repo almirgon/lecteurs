@@ -4,4 +4,21 @@
   color: #666666;
   align-items: center;
   display: flex;
+  transition: 0.3s;
+  height: fit-content;
+  background: none;
+  border: none;
+}
+
+.like:hover,
+.like:focus {
+  outline: none;
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.like:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: scale(1);
 }

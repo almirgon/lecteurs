@@ -1,29 +1,35 @@
-import React, {useState} from "react";
+import React from "react";
 import Like from "../Like/Like";
-import styles from './Card.module.css'
+import styles from "./Card.module.css";
+import dateAgo from "../../filters/dateAgo";
 
 const Card = ({index, item, click}) => {
-  const [likes, setLikes] = useState(0);
   return (
-    <div onClick={click} key={index} className={styles.myItem}>
+    <div key={index} className={styles.cardItem}>
       <div className={styles.cardInfo}>
-        <div className={styles.myImg}>
+        <div className={styles.cardImg}>
           <img src={item.photo} alt="card-img" />
-        </div>
-        <div className={styles.myInfo}>
-          <div>
-          <h3> {item.name}</h3>
-          <p>{item.author}</p>
+          <div className={styles.likeBackground}>
+            <Like likes={item?.likes} idReview={item.idReview} color={"#FFFFFF"} />
           </div>
-          <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas officiis molestias amet commodi atque animi iusto tenetur repellat minima, ut illo provident assumenda soluta non earum voluptates sint quibusdam. Adipisci? Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas officiis molestias amet commodi</p>
+        </div>
+        <div onClick={click} className={styles.myInfo}>
+          <div>
+            <h3> {item?.tittle}</h3>
+            <p>{item?.author}</p>
+          </div>
+          <p>
+            {item?.resume}
+          </p>
           <div>
             <div className={styles.cardFooter}>
-            <Like/>
-              <span><p style={{textAlign: 'end'}}>{item.user.username}</p>
-            <p style={{textAlign: 'end'}}>Postado á 5 horas atrás</p></span>
-              
+              <span>
+                <p style={{textAlign: "end"}}>@{item?.username}</p>
+                <p style={{textAlign: "end"}}>
+                  Postado á {dateAgo(item?.postDate)}
+                </p>
+              </span>
             </div>
-            
           </div>
         </div>
       </div>

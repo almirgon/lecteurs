@@ -1,5 +1,5 @@
-import React, {useContext} from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useContext, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from "yup";
 import Button from "../../components/Button/Button";
@@ -7,7 +7,8 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import UserService from "../../services/UserService";
 import AuthService from "../../services/AuthService";
-import { UserContext } from "../../context/UserContext";
+import {UserContext} from "../../context/UserContext";
+import Spinner from "../../components/Loading/Spinner/Spinner";
 
 const validations = () => {
   return Yup.object().shape({
@@ -48,48 +49,81 @@ const validations = () => {
 
 const Register = () => {
   const swalNotification = withReactContent(Swal);
-  const navigate = useNavigate()
-  const context = useContext(UserContext)
+  const navigate = useNavigate();
+  const context = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const {setUsername, setAuthorized} = context;
 
-  const submit = values => {
+  const submit = (values, {setSubmitting}) => {
+    setLoading(true);
     delete values.passwordConfirm;
-    UserService.createUser(values).then(response => {
-      if (response.status === 201) {
-        swalNotification
-          .fire({
-            title: `${response.data.message}`,
-            html: (
-              <div>
-                <p>
-                  Olá {response.data.response.user.firstName}! Seja bem vindx ao
-                  Lecterus 😀📚
-                </p>
-                <p>
-                  Aqui você poderá compartilhar e ler diferentes reviews de
-                  milhares de livros
-                </p>
-              </div>
-            ),
-            icon: "success",
-            showConfirmButton: true,
-            confirmButtonColor: "rgb(1, 56, 150)",
-            confirmButtonText: "Vamos lá :P",
-          })
-          .then(result => {
-            if (result.isConfirmed) {
-              const credentials = {login: values.email, password: values.password}
-              AuthService.login(credentials).then(response => {
-                if(response.status === 200){
-                  setAuthorized(true)
-                  setUsername(response.data.username)
-                  navigate('/')
-                }
-              }, (err) => {navigate('/')})
-            }
-          });
-      }
-    }, (error) => {console.log(error)});
+    UserService.createUser(values).then(
+      response => {
+        if (response.status === 201) {
+          setSubmitting(false);
+          setLoading(false);
+          swalNotification
+            .fire({
+              title: `${response.data.message}`,
+              html: (
+                <div>
+                  <p>
+                    Olá {response.data.response.user.firstName}! Seja bem vindx
+                    ao Lecterus 😀📚
+                  </p>
+                  <p>
+                    Aqui você poderá compartilhar e ler diferentes reviews de
+                    milhares de livros
+                  </p>
+                </div>
+              ),
+              icon: "success",
+              showConfirmButton: true,
+              confirmButtonColor: "rgb(1, 56, 150)",
+              confirmButtonText: "Vamos lá :P",
+            })
+            .then(result => {
+              if (result.isConfirmed) {
+                const credentials = {
+                  login: values.email,
+                  password: values.password,
+                };
+                AuthService.login(credentials).then(
+                  response => {
+                    if (response.status === 200) {
+                      setAuthorized(true);
+                      setUsername(response.data.username);
+                      navigate("/");
+                    }
+                  },
+                  err => {
+                    navigate("/");
+                  },
+                );
+              }
+            });
+        }
+      },
+      err => {
+        setSubmitting(false);
+        setLoading(false);
+        const toast = swalNotification.mixin({
+          toast: true,
+          position: "bottom-left",
+          showConfirmButton: false,
+          timer: 4000,
+          timerProgressBar: true,
+          didOpen: toast => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+        toast.fire({
+          icon: "error",
+          title: `${err.response.data.message}`,
+        });
+      },
+    );
   };
   return (
     <section className="animeLeft">
@@ -158,7 +192,7 @@ const Register = () => {
               component="p"
             />
             <Button disabled={isSubmitting || !isValid} type="submit">
-              Cadastrar
+              {loading ? <Spinner /> : "Cadastro"}
             </Button>
           </Form>
         )}

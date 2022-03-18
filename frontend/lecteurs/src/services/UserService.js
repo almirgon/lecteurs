@@ -1,19 +1,17 @@
 import axiosInstance from "./AxiosInstance";
 
-class UserService{
-
-  createUser(user){
-    return axiosInstance.post('/user', user)
+class UserService {
+  createUser(user) {
+    return axiosInstance.post("/user", user);
   }
 
-  getUser(id){
-    return axiosInstance.get(`/user/${id}`)
+  getUser(id) {
+    return axiosInstance.get(`/user/${id}`);
   }
 
-  deleteUser(id){
-    return axiosInstance.delete(`/user/${id}`)
+  deleteUser(id) {
+    return axiosInstance.delete(`/user/${id}`);
   }
-
 }
 
-export default new UserService()
+export default new UserService();

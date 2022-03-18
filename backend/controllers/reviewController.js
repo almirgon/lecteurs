@@ -11,13 +11,27 @@ const s3 = new AWS.S3({
 
 exports.getAllReviews = async (req, res, next) => {
   try {
-    const query = `select idReview, tittle, author, resume,photo,username, postDate, (select count(*) from Likes l where l.idReview = r.idReview) as likes
+    const query = `select idReview, tittle, author, resume,photo,username, review,note, postDate, (select count(*) from Likes l where l.idReview = r.idReview) as likes
     from Review r left join User u on r.user = u.idUser order by idReview desc`;
     const results = await mysql.execute(query);
     if (results.length === 0) {
       return res.status(404).send({message: "Nenhum resultado encontrado"});
     }
 
+    return res.status(200).send({response: results});
+  } catch (error) {
+    return res.status(500).send({error: error});
+  }
+};
+
+exports.filterReviewsByNote = async (req, res, next) => {
+  try {
+    const query = `select idReview, tittle, author, resume,photo,username, review,note, postDate, (select count(*) from Likes l where l.idReview = r.idReview) as likes
+    from Review r left join User u on r.user = u.idUser where r.note = ?`;
+    const results = await mysql.execute(query, [req.query.q]);
+    if (results.length === 0) {
+      return res.status(404).send({message: "Nenhum resultado encontrado"});
+    }
     return res.status(200).send({response: results});
   } catch (error) {
     return res.status(500).send({error: error});
@@ -93,12 +107,13 @@ exports.putReview = async (req, res, next) => {
 
 exports.searchReview = async (req, res, next) => {
   try {
-    const query = `SELECT * FROM Review where LOWER(title) LIKE ? or LOWER(author) LIKE ?`;
+    const query = `select idReview, tittle, author, resume, review, note,photo,username, postDate, (select count(*) from Likes l where l.idReview = r.idReview) as likes from Review r left join User u on r.user = u.idUser where LOWER(tittle) LIKE ? or LOWER(author) LIKE ?`;
     const results = await mysql.execute(query, [
       `%${req.query.q.toLowerCase()}%`,
       `%${req.query.q.toLowerCase()}%`,
     ]);
     if (results.length === 0) {
+      
       return res.status(404).send({message: "Nenhum resultado encontrado"});
     }
     return res.status(200).send({response: results});
@@ -107,14 +122,19 @@ exports.searchReview = async (req, res, next) => {
   }
 };
 
+
+
 exports.uploadBookCover = (req,res,next) => {
-    const myFile = req.file.originalname.split(".")
-    const fileType = myFile[myFile.length - 1]
+    
+    const base64Data = new Buffer.from(req.body.image.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+    const type = req.body.image.split(';')[0].split('/')[1];
 
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: `lecteurs-book-cover-${uuid()}.${fileType}`,
-      Body: req.file.buffer
+      Key: `lecteurs-book-cover-${uuid()}.${type}`,
+      Body: base64Data,
+      ContentEncoding: 'base64',
+      ContentType: `image/${type}`
     }
     s3.upload(params, (error, data) => {
       if (error) {

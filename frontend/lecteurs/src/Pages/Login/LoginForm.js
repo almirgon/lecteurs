@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from "yup";
@@ -6,6 +6,9 @@ import Button from "../../components/Button/Button";
 import styles from "./Login.module.css";
 import AuthService from "../../services/AuthService";
 import {UserContext} from "../../context/UserContext";
+import Spinner from "../../components/Loading/Spinner/Spinner";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const validations = () => {
   return Yup.object().shape({
@@ -16,20 +19,41 @@ const validations = () => {
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const swalNotification = withReactContent(Swal);
   const context = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const {setUsername, setAuthorized} = context;
 
-  const submit = values => {
+  const submit = (values, {setSubmitting}) => {
+    setLoading(true);
     AuthService.login(values).then(
       response => {
         if (response.status === 200) {
+          setSubmitting(false);
           setAuthorized(true);
           setUsername(response.data.username);
+          setLoading(false);
           navigate("/");
         }
       },
       err => {
-        console.log(err);
+        setSubmitting(false);
+        setLoading(false);
+        const toast = swalNotification.mixin({
+          toast: true,
+          position: "bottom-left",
+          showConfirmButton: false,
+          timer: 4000,
+          timerProgressBar: true,
+          didOpen: toast => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+        toast.fire({
+          icon: "error",
+          title: `${err.response.data.message}`,
+        });
       },
     );
   };
@@ -56,7 +80,7 @@ const LoginForm = () => {
             />
             <ErrorMessage className="error" name="password" component="p" />
             <Button disabled={isSubmitting || !isValid} type="submit">
-              Login
+              {loading ? <Spinner /> : "Login"}
             </Button>
           </Form>
         )}

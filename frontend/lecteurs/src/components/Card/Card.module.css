@@ -1,11 +1,11 @@
-
-.myItem {
+.cardItem {
   user-select: none;
   transition: all 0.25s;
-  width: 100% ;
-  height: 100%;
+  width: 100%;
+  
+  height: fit-content;
 }
-.myItem:hover{
+.cardItem:hover {
   transform: scale(1.025);
 }
 
@@ -14,50 +14,69 @@
   grid-template-columns: auto 2fr;
   gap: 0.2rem;
   cursor: pointer;
-  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302),0 2px 6px 2px rgba(60,64,67,0.149);
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
+    0 2px 6px 2px rgba(60, 64, 67, 0.149);
 }
 
-.cardFooter{
+.cardFooter {
   display: flex;
-    align-items: center;
-    justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-.myImg{
+.cardImg {
   height: 300px;
   width: 210px;
-  
+  display: grid;
 }
 
-img{
+
+.cardImg img{
+  grid-area: 1/1
+}
+
+
+.likeBackground {
+  grid-area: 1/1;
+  color: white;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.cardImg:hover .likeBackground{
+  display: flex;
+}
+
+img {
   max-height: 300px;
   height: 100%;
   width: 100%;
-  object-fit:cover;
+  object-fit: cover;
 }
 
-
-.myInfo{
+.myInfo {
   display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 0.5rem;
-    padding: 0 0.5rem;
-    align-items: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  align-items: center;
 }
-.myInfo h3{
+.myInfo h3 {
   word-break: break-word;
-    font-size: 1.2rem;
-    overflow: hidden;
-    margin-bottom: 0px;
-    text-overflow: ellipsis;
-    max-height: 100%;
-    max-width: 100%;
-    text-align: start;
-    color: #666666;
-
+  font-size: 1.2rem;
+  overflow: hidden;
+  margin-bottom: 0px;
+  text-overflow: ellipsis;
+  max-height: 100%;
+  max-width: 100%;
+  text-align: start;
+  color: #666666;
 }
-.myInfo p{
+.myInfo p {
   font-size: 15px;
   color: gray;
   margin: 0px;
@@ -66,22 +85,17 @@ img{
   text-align: justify;
 }
 
-@media (max-width: 40rem){
-  .cardInfo{
+@media (max-width: 40rem) {
+  .cardInfo {
     grid-template-columns: auto;
-    
   }
 
-  .myImg{
+  .cardImg {
     height: 260px;
     width: 100%;
   }
 
-  .myInfo{
-    display:none
+  .myInfo {
+    display: none;
   }
-
-  
-
 }
-

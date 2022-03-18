@@ -1,7 +1,6 @@
 import axiosInstance from "./AxiosInstance";
 
 class AuthService {
-  
   async login(credentials) {
     const response = await axiosInstance.post("/login", credentials);
     if (response.data.token) {

@@ -1,16 +1,25 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import styles from "./Review.module.css";
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import ReviewPhoto from "./ReviewPhoto";
 import ReviewForm from "./ReviewForm";
 import NotFound from "../NotFound/NotFound";
 import {useNavigate} from "react-router-dom";
+import {UserContext} from "../../context/UserContext";
+
+const PrivateRoute = ({children, redirect}) => {
+  const context = useContext(UserContext);
+  const {authorized} = context;
+  const redirectPath = redirect ?? "/login";
+
+  return authorized ? children : <Navigate to={redirectPath} />;
+};
 
 const ReviewPage = () => {
   const navigate = useNavigate();
 
   const [reviewData, setReviewData] = useState({
-    title: "",
+    tittle: "",
     author: "",
     resume: "",
     note: 0,

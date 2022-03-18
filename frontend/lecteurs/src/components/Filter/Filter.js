@@ -1,14 +1,16 @@
 import React, {useState, useEffect, useRef} from "react";
 import {Formik, Field, Form} from "formik";
+import {useNavigate} from "react-router-dom";
 import Rating from "react-rating";
 import styles from "./Filter.module.css";
 import {ReactComponent as FilterButton} from "../../assets/filter.svg";
 import {ReactComponent as DoneButton} from "../../assets/done.svg";
 import {ReactComponent as CleanFilter} from "../../assets/clean.svg";
 
-const Filter = () => {
+const Filter = ({filterReview}) => {
   const [open, setOpen] = useState(false);
   const [select, setSelect] = useState("");
+  const navigate = useNavigate();
   const filterRef = useRef();
 
   useEffect(() => {
@@ -41,9 +43,9 @@ const Filter = () => {
               note: select,
             }}
             onSubmit={values => {
-              alert(JSON.stringify(values, null, 2));
               setSelect(values.note);
               setOpen(false);
+              filterReview(values.note);
             }}
           >
             {({values}) => (
@@ -99,14 +101,12 @@ const Filter = () => {
                   </label>
                 </div>
                 <span className={styles.filterBtns}>
-                  {" "}
                   <button
                     className={styles.filterBtn}
                     style={{width: "50%"}}
                     disabled={values.note === ""}
                     type="submit"
                   >
-                    {" "}
                     <DoneButton />
                   </button>
                   <button
@@ -114,6 +114,7 @@ const Filter = () => {
                     onClick={() => {
                       setSelect("");
                       setOpen(false);
+                      navigate(`/`);
                     }}
                     style={{width: "50%"}}
                     type="reset"

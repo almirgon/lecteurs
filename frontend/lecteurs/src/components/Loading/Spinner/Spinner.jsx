@@ -1,9 +1,12 @@
-import React from 'react'
-import './Spinner.scss'
+import React from "react";
+import "./Spinner.scss";
 
 const Spinner = () => {
   return (
-<div className="lds-circle"><div></div></div>)
-}
+    <div className="lds-circle">
+      <div></div>
+    </div>
+  );
+};
 
-export default Spinner
+export default Spinner;

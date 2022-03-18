@@ -1,0 +1,14 @@
+
+.editReview{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  gap: 2rem;
+}
+
+.editReview::before{
+  display: block;
+  content: '';
+  background: url('../../assets/editReview.jpg') no-repeat center center;
+  background-size: cover ;
+}

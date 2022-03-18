@@ -1,6 +1,6 @@
 import React from "react";
 import {Rating} from "react-simple-star-rating";
-import styles from './ReviewMobile.module.css'
+import styles from "./ReviewMobile.module.css";
 
 const ReviewMobile = () => {
   const mock = {
@@ -23,20 +23,24 @@ const ReviewMobile = () => {
 
   return (
     <section>
-      <img className={styles.reviewMobileCover} src={mock.photo} alt={mock.name}></img>
+      <img
+        className={styles.reviewMobileCover}
+        src={mock.photo}
+        alt={mock.name}
+      ></img>
       <div className={styles.reviewMobile}>
-          <div>
-            <span>
-              <h3 className="subTitle">{mock.name}</h3>
-              <p className="paragraph">{mock.author}</p>
-            </span>
-            <span>
-              <p className="paragraph">
-                Postado por {mock.user.username} (Há 4 dias)
-              </p>
-            </span>
-          </div>
-        
+        <div>
+          <span>
+            <h3 className="subTitle">{mock.name}</h3>
+            <p className="paragraph">{mock.author}</p>
+          </span>
+          <span>
+            <p className="paragraph">
+              Postado por {mock.user.username} (Há 4 dias)
+            </p>
+          </span>
+        </div>
+
         <div>
           <p className="paragraph">Resumo: {mock.resume}</p>
         </div>

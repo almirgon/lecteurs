@@ -10,16 +10,17 @@ const upload = multer({storage}).single('image')
 
 router.get('/all', reviewController.getAllReviews)
 
-
 router.get('/:id', reviewController.getReview)
 
-router.get('/search', reviewController.searchReview)
+router.get('/', reviewController.searchReview)
+
+router.get('/filter/note', reviewController.filterReviewsByNote)
 
 router.post('/', protectedRoute, reviewController.postReview)
 
 router.put('/:id',protectedRoute, reviewController.putReview)
 
-router.post('/cover', protectedRoute, upload, reviewController.uploadBookCover)
+router.post('/cover', upload, reviewController.uploadBookCover)
 
 router.post('/like/:id', protectedRoute, reviewController.likeReview)
 

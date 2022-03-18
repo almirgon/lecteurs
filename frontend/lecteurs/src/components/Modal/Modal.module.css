@@ -12,7 +12,7 @@
   justify-content: center;
 }
 
-.modalContainer{
+.modalContainer {
   position: relative;
   background: linear-gradient(to right, transparent 140px, white 140px);
   z-index: 1;
@@ -23,28 +23,27 @@
   height: 37rem;
   max-width: 68.1rem;
   padding: 20px 0.5rem 20px 0;
-  animation: fadeIn .4s forwards;
+  animation: fadeIn 0.4s forwards;
   transition: all 0.4s;
 }
 
 @keyframes fadeIn {
-  from{
+  from {
     opacity: 0;
-    transform: translate3d(0,-50px,0);
+    transform: translate3d(0, -50px, 0);
   }
-  to{
+  to {
     opacity: 1;
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
-
-.modalData{
+.modalData {
   grid-column: 2;
   max-width: 600px;
 }
 
-.modalTitle{
+.modalTitle {
   font-size: 2rem;
 }
 
@@ -53,7 +52,3 @@
     padding: 2rem calc(2rem + 15px) 2rem 2rem;
   }
 }
-
-
-
-

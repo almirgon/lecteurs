@@ -30,21 +30,21 @@
   opacity: 0.8;
 }
 
-.logged{
+.logged {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.username{
-  color: #666666
+.username {
+  color: #666666;
 }
 
-.navButton{
+.navButton {
   cursor: pointer;
   transition: all 0.3s;
 }
 
-.navButton:hover{
+.navButton:hover {
   opacity: 0.7;
 }

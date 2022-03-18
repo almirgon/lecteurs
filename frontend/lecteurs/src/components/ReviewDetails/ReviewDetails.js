@@ -1,17 +1,21 @@
 import React from "react";
 import Like from "../Like/Like";
 import styles from "./ReviewDetails.module.css";
+import dateAgo from "../../filters/dateAgo";
 
-const ReviewDetails = ({name, author, user, date, resume}) => {
+const ReviewDetails = ({title, author, username, date, resume, idReview}) => {
   return (
     <div className={styles.modalInfo}>
       <span>
-        
-        <span className={styles.infoHeader}><h3 className="subTitle">{name}</h3> <Like className="closeButton"/></span>
+        <span className={styles.infoHeader}>
+          <h3 className="subTitle">{title}</h3> <Like idReview={idReview} />
+        </span>
         <p className="paragraph">{author}</p>
       </span>
       <span>
-        <p className="paragraph">Postado por {user.username} (Há 4 dias)</p>
+        <p className="paragraph">
+          Postado por @{username} (Há {dateAgo(date)})
+        </p>
       </span>
       <p className="paragraph">Resumo: {resume}</p>
     </div>

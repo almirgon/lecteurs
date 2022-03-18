@@ -10,7 +10,8 @@ exports.login = async (req, res, next) => {
       req.body.login,
     ]);
     if (results.length < 1) {
-      return res.status(401).send({message: "Falha na autenticação"});
+      console.log(results)
+      return res.status(401).send({message: "Usuário não encontrado"});
     }
     if (await bcrypt.compare(req.body.password, results[0].password)) {
       const token = jwt.sign(

@@ -1,25 +1,49 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./Modal.module.css";
 import ReviewPhoto from "../ReviewPhoto/ReviewPhoto";
 import ReviewDetails from "../ReviewDetails/ReviewDetails";
 import Review from "../Review/Review";
+import ReviewService from "../../services/ReviewService";
+import Loading from "../Loading/Loading";
 
-const Modal = ({item, close}) => {
+const Modal = ({item, close, idReview}) => {
+  const [review, setReview] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
+    ReviewService.getReviewById(idReview).then(({data, status}) => {
+      if (status === 200) {
+        data?.response.forEach(reviewItem => {
+          setReview(reviewItem);
+          setLoading(false);
+        });
+      }
+    });
   }, [item]);
 
-  const handleOutsideClick = (event) => {
-    if(event.target === event.currentTarget){
-      close(false)
+  const handleOutsideClick = event => {
+    if (event.target === event.currentTarget) {
+      close(false);
     }
-  }
+  };
   return (
     <section className={styles.modal} onClick={handleOutsideClick}>
-      <div className={styles.modalContainer}>
-        <ReviewPhoto photo={item.photo} name={item.name} />
-        <ReviewDetails name={item.name} author={item.author} user={item.user} resume={item.resume}/>
-        <Review close={close} stars={item.stars} review={item.review} />
-      </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className={styles.modalContainer}>
+          <ReviewPhoto photo={review.photo} name={review.tittle} />
+          <ReviewDetails
+            title={review.tittle}
+            author={review.author}
+            username={review.username}
+            date={review.postDate}
+            resume={review.resume}
+            idReview={review.idReview}
+          />
+          <Review close={close} stars={review.note} review={review.review} />
+        </div>
+      )}
     </section>
   );
 };

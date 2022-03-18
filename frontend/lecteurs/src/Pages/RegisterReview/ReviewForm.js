@@ -43,17 +43,21 @@ const ReviewForm = ({
   return (
     <section className="animeLeft">
       <h1 className="title">Escreva Sua Review</h1>
-      <Formik initialValues={reviewData} onSubmit={submit}>
-        {({isValid, isSubmitting, setFieldValue}) => (
+      <Formik
+        initialValues={reviewData}
+        onSubmit={submit}
+        validationSchema={validations}
+      >
+        {({isSubmitting, setFieldValue, errors}) => (
           <Form className="form">
-            <label htmlFor="title">Título do Livro</label>
-            <Field className="input" type="text" name="title" id="title" />
-            <ErrorMessage className="error" name="title" component="p" />
+            <label htmlFor="tittle">Título do Livro</label>
+            <Field className="input" type="text" name="tittle" id="tittle" />
+            <ErrorMessage className="error" name="tittle" component="p" />
             <label htmlFor="author">Autor do Livro</label>
             <Field className="input" type="text" name="author" id="author" />
             <ErrorMessage className="error" name="author" component="p" />
             <label htmlFor="resume">
-              Resumo ({countResume}/300 caracteres)
+              Resumo ({countResume}/350 caracteres)
             </label>
             <Field
               className="input"
@@ -96,9 +100,12 @@ const ReviewForm = ({
                 onChange={rate => handleRating(rate, setFieldValue)}
                 initialRating={ratingValue}
                 emptySymbol="fa fa-star-o fa-2x"
-  fullSymbol="fa fa-star fa-2x medium"
+                fullSymbol="fa fa-star fa-2x medium"
               />
-              <Button disabled={isSubmitting || !isValid} type="submit">
+              <Button
+                disabled={isSubmitting || !Object.keys(errors).length}
+                type="submit"
+              >
                 Proximo
               </Button>
             </div>
