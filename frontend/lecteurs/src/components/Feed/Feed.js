@@ -35,13 +35,10 @@ const Feed = () => {
             setReviews(reviews => reviews.concat(item));
             setLoading(false);
           });
-        } else {
-          setStatus(status);
-          setLoading(false);
-          setErros(true);
-        }
+        } 
       },
       err => {
+        setStatus(status);
         setLoading(false);
         setErros(true);
       },

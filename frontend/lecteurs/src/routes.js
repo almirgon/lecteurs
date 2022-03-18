@@ -23,7 +23,7 @@ export default function RoutesManager() {
         <Route exact path="/*" element={<Home />} />
         <Route exact path="/login/*" element={<Login />} />
         <Route exact path="/review/*" element={<ReviewPage />} />
-        <Route exact path="/edit/review" element={<EditReview />} />
+        <Route exact path="/edit/review/:id" element={<EditReview />} />
         <Route exact path="/review-mobile/:id" element={<ReviewMobile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

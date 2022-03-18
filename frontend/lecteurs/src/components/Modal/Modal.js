@@ -41,7 +41,7 @@ const Modal = ({item, close, idReview}) => {
             resume={review.resume}
             idReview={review.idReview}
           />
-          <Review close={close} stars={review.note} review={review.review} />
+          <Review close={close} stars={review.note} review={review.review} userId={review.idUser} idReview={review.idReview}/>
         </div>
       )}
     </section>

@@ -40,7 +40,7 @@ exports.filterReviewsByNote = async (req, res, next) => {
 
 exports.getReview = async (req, res, next) => {
   try {
-    const query = `select idReview, tittle, author, resume, review, note,photo,username, postDate, (select count(*) from Likes l where l.idReview = r.idReview) as likes
+    const query = `select idReview, tittle, author, resume, review, note,photo,username, idUser, postDate, (select count(*) from Likes l where l.idReview = r.idReview) as likes
     from Review r left join User u on r.user = u.idUser where r.idReview = ?`;
     const result = await mysql.execute(query, [
       req.params.id,
@@ -54,11 +54,28 @@ exports.getReview = async (req, res, next) => {
   }
 };
 
+exports.getEditReview = async (req, res, next) => {
+  try {
+    const query = `select tittle, author, resume, review, note,photo, idUser 
+    from Review r left join User u on r.user = u.idUser where r.idReview = ?`;
+    const result = await mysql.execute(query, [
+      req.params.id,
+    ]);
+    if (result.length === 0) {
+      return res.status(404).send({message: "Nenhum resultado encontrado"});
+    }
+    return res.status(200).send(result[0]);
+  } catch (error) {
+    return res.status(500).send({error: error});
+  }
+};
+
 exports.postReview = async (req, res, next) => {
   const usertoken = req.headers.authorization;
   const token = usertoken.split(' ');
   const decoded = jwt.verify(token[1], process.env.JWT_KEY);
   try {
+    const date = new Date()
     const query = `INSERT INTO Review (tittle, author, resume, note, review, photo, postDate, user) VALUES (?,?,?,?,?,?,?, ?)`;
     const result = await mysql.execute(query, [
       req.body.tittle,
@@ -67,7 +84,7 @@ exports.postReview = async (req, res, next) => {
       req.body.note,
       req.body.review,
       req.body.photo,
-      new Date(),
+      date.format("dd/MM/yyyy hh:mm TT"),
       decoded.idUser
     ]);
     return res.status(201).send({
@@ -85,9 +102,9 @@ exports.postReview = async (req, res, next) => {
 
 exports.putReview = async (req, res, next) => {
   try {
-    const query = `UPDATE Review set title = ?, author = ?, resume = ?, note = ?, review = ?, photo = ? WHERE IdReview = ?`;
+    const query = `UPDATE Review set tittle = ?, author = ?, resume = ?, note = ?, review = ?, photo = ? WHERE IdReview = ?`;
     await mysql.execute(query, [
-      req.body.title,
+      req.body.tittle,
       req.body.author,
       req.body.resume,
       req.body.note,
@@ -95,8 +112,8 @@ exports.putReview = async (req, res, next) => {
       req.body.photo,
       req.params.id,
     ]);
-    return res.status(201).send({
-      mensagem: "Review alterada com sucesso",
+    return res.status(200).send({
+      message: "Review alterada com sucesso",
     });
   } catch (error) {
     return res.status(500).send({

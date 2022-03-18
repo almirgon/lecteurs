@@ -12,6 +12,8 @@ const PrivateRoute = ({children, redirect}) => {
   const {authorized} = context;
   const redirectPath = redirect ?? "/login";
 
+  console.log(authorized)
+
   return authorized ? children : <Navigate to={redirectPath} />;
 };
 
@@ -43,21 +45,27 @@ const ReviewPage = () => {
           <Route
             path="/"
             element={
-              <ReviewForm
-                submit={handleSubmit}
-                reviewData={reviewData}
-                ratingValue={rating}
-                setRatingValue={setRatingValue}
-                countResume={countResumeCharacters}
-                countReview={countReviewCharacters}
-                setCountResume={setCountResumeCharacters}
-                setCountReview={setCountReviewCharacters}
-              />
+              <PrivateRoute>
+                <ReviewForm
+                  submit={handleSubmit}
+                  reviewData={reviewData}
+                  ratingValue={rating}
+                  setRatingValue={setRatingValue}
+                  countResume={countResumeCharacters}
+                  countReview={countReviewCharacters}
+                  setCountResume={setCountResumeCharacters}
+                  setCountReview={setCountReviewCharacters}
+                />
+              </PrivateRoute>
             }
           />
           <Route
             path="/send-photo"
-            element={<ReviewPhoto reviewData={reviewData} />}
+            element={
+              <PrivateRoute>
+                <ReviewPhoto reviewData={reviewData} />
+              </PrivateRoute>
+            }
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

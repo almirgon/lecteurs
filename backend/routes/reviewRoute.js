@@ -14,6 +14,8 @@ router.get('/:id', reviewController.getReview)
 
 router.get('/', reviewController.searchReview)
 
+router.get('/edit/:id', reviewController.getEditReview)
+
 router.get('/filter/note', reviewController.filterReviewsByNote)
 
 router.post('/', protectedRoute, reviewController.postReview)

@@ -6,11 +6,13 @@ import {Link, useNavigate} from "react-router-dom";
 import styles from "./Header.module.css";
 import {UserContext} from "../../context/UserContext";
 import AuthService from "../../services/AuthService";
+import useWindowSize from "../../hooks/useResize";
 
 const Header = () => {
   const context = useContext(UserContext);
   const {authorized, setAuthorized, username, setUsername} = context;
   const navigate = useNavigate();
+  const widthSize = useWindowSize();
 
   const handleLogout = () => {
     AuthService.logout();
@@ -27,7 +29,7 @@ const Header = () => {
         </Link>
         {authorized ? (
           <div className={styles.logged}>
-            <p className={styles.username}>olá, @{username} |</p>{" "}
+            <p style={{display: widthSize.width < 768 && 'none'}} className={styles.username}>olá, @{username} |</p>{" "}
             <Add
               className={styles.navButton}
               fill={"#013896"}

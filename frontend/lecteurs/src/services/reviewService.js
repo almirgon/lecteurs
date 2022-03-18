@@ -31,6 +31,16 @@ class ReviewService {
     return axiosInstance.get("/review/" + id);
   }
 
+  getReviewForEdit(id) {
+    return axiosInstance.get("/review/edit/" + id);
+  }
+
+  putReview(id, review) {
+    return axiosInstance.put("/review/" + id, review, {
+      headers: authHeader(),
+    });
+  }
+
   like(id) {
     return axiosInstance.post("/review/like/" + id, null, {
       headers: authHeader(),

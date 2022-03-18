@@ -12,3 +12,11 @@
   background: url('../../assets/editReview.jpg') no-repeat center center;
   background-size: cover ;
 }
+
+@media (max-width: 40rem) {
+  .editReview {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+    gap: 0.5rem;
+  }
+}
