@@ -28,7 +28,7 @@ O Lecteurs é uma aplicação web que imita uma rede social para leitores compar
 * Tela de Pesquisa e filtro: Formada por um card clicavel que representam a review encontrada
 * Tela de Edição: Tela com um form, na qual um usuário logado pode editar a sua review
 
-##Desenvolvimento 
+## Desenvolvimento 
 
 * O frontend da aplicação foi desenvolvido utilizando React junto ao formik, axios, react-simple-star-rating, react-images-uploading, sweetalert2 e yup
 * O backend da aplicação foi desenvolvido utilizando NodeJS junto ao aws-sdk, bcrypt, express, jsonwebtoken, mysql e nodemon
