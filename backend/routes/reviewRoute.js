@@ -14,15 +14,13 @@ router.get('/:id', reviewController.getReview)
 
 router.get('/', reviewController.searchReview)
 
-router.get('/edit/:id', reviewController.getEditReview)
-
 router.get('/filter/note', reviewController.filterReviewsByNote)
 
 router.post('/', protectedRoute, reviewController.postReview)
 
 router.put('/:id',protectedRoute, reviewController.putReview)
 
-router.post('/cover', upload, reviewController.uploadBookCover)
+router.post('/cover', upload, protectedRoute, reviewController.uploadBookCover)
 
 router.post('/like/:id', protectedRoute, reviewController.likeReview)
 

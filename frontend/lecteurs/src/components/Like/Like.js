@@ -1,42 +1,29 @@
-import React, {useState} from "react";
-import {ReactComponent as AddLike} from "../../assets/like.svg";
-import {ReactComponent as Unlike} from "../../assets/unlike.svg";
+import React, {useContext} from "react";
+import {ReactComponent as AddLike} from "../../assets/unlike.svg";
 import styles from "./Like.module.css";
 import ReviewService from "../../services/ReviewService";
+import {UserContext} from "../../context/UserContext";
 
-const Like = ({color, likes, idReview}) => {
-  const [liked, setLiked] = useState(false);
-  const [countLikes, setCountLikes] = useState(0);
+const Like = ({color, idReview, likes, handleLike}) => {
+  const {authorized} = useContext(UserContext);
 
   const handleClick = () => {
     ReviewService.like(idReview).then(({data, status}) => {
       if (status === 200) {
-        setCountLikes(data[0].likes);
-        setLiked(!liked);
+        handleLike(data?.likes);
       }
     });
   };
 
   return (
-    <>
-      {liked ? (
-        <button
-          style={{color: color}}
-          onClick={handleClick}
-          className={styles.like}
-        >
-          <Unlike /> {countLikes}
-        </button>
-      ) : (
-        <button
-          style={{color: color}}
-          onClick={handleClick}
-          className={styles.like}
-        >
-          <AddLike /> {countLikes}
-        </button>
-      )}
-    </>
+    <button
+      disabled={!authorized}
+      style={{color: color}}
+      onClick={handleClick}
+      className={styles.like}
+    >
+      <AddLike /> {likes}
+    </button>
   );
 };
 

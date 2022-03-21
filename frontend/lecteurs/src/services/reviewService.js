@@ -20,7 +20,7 @@ class ReviewService {
   }
 
   filterReviews(note) {
-    return axiosInstance.get("review/filter/note?q=" + note, null);
+    return axiosInstance.get("/review/filter/note?q=" + note, null);
   }
 
   getAllReviews() {
@@ -29,10 +29,6 @@ class ReviewService {
 
   getReviewById(id) {
     return axiosInstance.get("/review/" + id);
-  }
-
-  getReviewForEdit(id) {
-    return axiosInstance.get("/review/edit/" + id);
   }
 
   putReview(id, review) {

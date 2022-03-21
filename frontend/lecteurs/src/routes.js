@@ -8,13 +8,6 @@ import EditReview from "./Pages/EditReview/EditReview";
 import NotFound from "./Pages/NotFound/NotFound";
 import {UserContext} from "./context/UserContext";
 
-const PrivateRoute = ({children, redirect}) => {
-  const context = useContext(UserContext);
-  const {authorized} = context;
-  const redirectPath = redirect ?? "/login";
-
-  return authorized ? {children} : <Navigate to={redirectPath} />;
-};
 
 export default function RoutesManager() {
   return (

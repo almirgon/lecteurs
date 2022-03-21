@@ -12,8 +12,6 @@ const PrivateRoute = ({children, redirect}) => {
   const {authorized} = context;
   const redirectPath = redirect ?? "/login";
 
-  console.log(authorized)
-
   return authorized ? children : <Navigate to={redirectPath} />;
 };
 
@@ -21,20 +19,18 @@ const ReviewPage = () => {
   const navigate = useNavigate();
 
   const [reviewData, setReviewData] = useState({
-    tittle: "",
+    title: "",
     author: "",
     resume: "",
     note: 0,
     review: "",
-    photo: "",
+    coverUrl: "",
   });
   const [rating, setRatingValue] = useState(0);
   const [countResumeCharacters, setCountResumeCharacters] = useState(0);
   const [countReviewCharacters, setCountReviewCharacters] = useState(0);
 
-  const handleSubmit = (values, {setSubmitting}) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
+  const handleSubmit = (values) => {
     setReviewData(values);
     navigate("/review/send-photo");
   };

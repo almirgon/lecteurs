@@ -22,7 +22,7 @@ const LoginForm = () => {
   const swalNotification = withReactContent(Swal);
   const context = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const {setUsername, setAuthorized} = context;
+  const {setUsername, setAuthorized, setUserId} = context;
 
   const submit = (values, {setSubmitting}) => {
     setLoading(true);
@@ -32,6 +32,7 @@ const LoginForm = () => {
           setSubmitting(false);
           setAuthorized(true);
           setUsername(response.data.username);
+          setUserId(response.data.id)
           setLoading(false);
           navigate("/");
         }

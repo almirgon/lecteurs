@@ -1,15 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import Rating from "react-rating";
 import styles from "./Review.module.css";
 import {ReactComponent as Close} from "../../assets/close.svg";
 import {ReactComponent as Edit} from "../../assets/edit.svg";
 import {useNavigate} from "react-router-dom";
+import {UserContext} from "../../context/UserContext";
 
-
-const Review = ({stars, review, close, userId, idReview}) => {
+const Review = ({stars, review, close, idUser, idReview}) => {
+  const {userId} = useContext(UserContext);
   const navigate = useNavigate();
-  const id = localStorage.getItem("id");
-  
+
   return (
     <div className={styles.modalReview}>
       <span className={styles.reviewTitle}>
@@ -26,7 +26,12 @@ const Review = ({stars, review, close, userId, idReview}) => {
           readonly
           initialRating={stars}
         />
-        {userId === JSON.parse(id) && <Edit onClick={() => navigate(`/edit/review/${idReview}`)} className={styles.editButton}/>}
+        {idUser === userId && (
+          <Edit
+            onClick={() => navigate(`/edit/review/${idReview}`)}
+            className={styles.editButton}
+          />
+        )}
       </span>
       <p className="paragraph">{review}</p>
     </div>

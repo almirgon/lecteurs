@@ -48,11 +48,11 @@ const ReviewForm = ({
         onSubmit={submit}
         validationSchema={validations}
       >
-        {({isSubmitting, setFieldValue, errors}) => (
+        {({isValid, setFieldValue}) => (
           <Form className="form">
-            <label htmlFor="tittle">Título do Livro</label>
-            <Field className="input" type="text" name="tittle" id="tittle" />
-            <ErrorMessage className="error" name="tittle" component="p" />
+            <label htmlFor="title">Título do Livro</label>
+            <Field className="input" type="text" name="title" id="title" />
+            <ErrorMessage className="error" name="title" component="p" />
             <label htmlFor="author">Autor do Livro</label>
             <Field className="input" type="text" name="author" id="author" />
             <ErrorMessage className="error" name="author" component="p" />
@@ -103,7 +103,7 @@ const ReviewForm = ({
                 fullSymbol="fa fa-star fa-2x medium"
               />
               <Button
-                disabled={isSubmitting || !Object.keys(errors).length}
+                disabled={!isValid}
                 type="submit"
               >
                 Proximo

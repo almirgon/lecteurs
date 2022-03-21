@@ -8,9 +8,9 @@ router.post('/', userController.createUser)
 
 router.get('/:id',protectedRoute, userController.getUser)
 
-router.put('/:id', userController.editUser)
+router.put('/:id', protectedRoute, userController.editUser)
 
-router.delete('/:id', userController.deleteUser)
+router.delete('/:id', protectedRoute, userController.deleteUser)
 
 
 module.exports = router

@@ -45,7 +45,7 @@ exports.createUser = async (req, res, next) => {
 
 exports.editUser = async (req, res, next) => {
   try {
-    const query = `UPDATE User set firstName = ?, lastName = ?, username = ?, email = ?, password = ? WHERE idUser = ?`;
+    const query = `UPDATE User set firstName = ?, lastName = ?, username = ?, email = ?, password = ? WHERE id = ?`;
     await mysql.execute(query, [
       req.body.firstName,
       req.body.lastName,
@@ -66,7 +66,7 @@ exports.editUser = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    const query = `DELETE FROM User WHERE idUser = ?`;
+    const query = `DELETE FROM User WHERE id = ?`;
     await mysql.execute(query, [req.params.id]);
     return res.status(202).send({message: "Usuário excluído com sucesso"});
   } catch (error) {
@@ -77,7 +77,7 @@ exports.deleteUser = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
  
   try {
-    const query = `SELECT idUser,firstName,lastName,username,email FROM User WHERE idUser = ?`;
+    const query = `SELECT id,firstName,lastName,username,email FROM User WHERE id = ?`;
     const result = await mysql.execute(query, [req.params.id]);
     if (result.length === 0) {
       return res.status(404).send({message: "Nenhum usuário encontrado"});

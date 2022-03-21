@@ -1,7 +1,7 @@
 const dateAgo = value => {
   if (value) {
     const seconds = Math.floor((+new Date() - +new Date(value)) / 1000);
-    if (seconds < 29) return "Agora á pouco";
+    if (seconds < 29) return "agora á pouco";
     const intervals = {
       ano: 31536000,
       mês: 2592000,

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import ImageUploading from "react-images-uploading";
 import styles from "./Review.module.css";
 import {ReactComponent as Book} from "../../assets/book.svg";
@@ -15,15 +15,14 @@ const ReviewPhoto = ({reviewData}) => {
   const navigate = useNavigate();
   const [loading,setLoading] = useState(false)
 
-  const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex);
+  const onChange = (imageList) => {
     setImages(imageList);
   };
 
   const finishReview = () => {
+    setLoading(true)
     ReviewService.sendBookCover(images).then(({data, status}) => {if(status === 200) {
-      reviewData.photo = data.Location
+      reviewData.coverUrl = data?.Location
       ReviewService.createReview(reviewData).then(({data,status}) => {
         if(status === 201){
           setLoading(false)
@@ -74,9 +73,6 @@ const ReviewPhoto = ({reviewData}) => {
       });
     })
   };
-
-  useEffect(() => {
-  }, []);
 
   return (
     <div className="animeLeft">

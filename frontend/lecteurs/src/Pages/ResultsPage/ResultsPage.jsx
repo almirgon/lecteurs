@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import ReviewService from "../../services/ReviewService";
 import Loading from "../../components/Loading/Loading";
 import Card from "../../components/Card/Card";
+import useWindowSize from "../../hooks/useResize";
 import Modal from "../../components/Modal/Modal";
 
 const ResultsPage = ({queryParam}) => {
@@ -13,10 +14,24 @@ const ResultsPage = ({queryParam}) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const widthSize = useWindowSize();
+  const navigate = useNavigate();
 
   const clickReview = item => {
     setSelectedItem(item);
-    setShowModal(true);
+    if (widthSize.width > 768) {
+      setShowModal(true);
+    } else {
+      navigate(`/review-mobile/${item?.idReview}`);
+    }
+  };
+
+  const updateReview = review => {
+    const idx = results.findIndex(el => el.idReview === review.idReview);
+    const newReviews = [...results];
+    newReviews[idx] = review;
+    setResults(newReviews);
+    setSelectedItem(review);
   };
 
   useEffect(() => {
@@ -74,9 +89,10 @@ const ResultsPage = ({queryParam}) => {
             results.map((item, index) => {
               return (
                 <Card
-                  click={() => clickReview(item)}
+                  openReview={() => clickReview(item)}
                   key={index}
                   index={index}
+                  updateReview={updateReview}
                   item={item}
                 />
               );
@@ -99,9 +115,10 @@ const ResultsPage = ({queryParam}) => {
       )}
       {showModal && (
         <Modal
+          updateReview={updateReview}
           item={selectedItem}
           close={setShowModal}
-          idReview={selectedItem.idReview}
+          idReview={selectedItem?.idReview}
         />
       )}
     </section>

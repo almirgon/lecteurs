@@ -14,7 +14,6 @@
 .like:focus {
   outline: none;
   opacity: 1;
-  transform: scale(1.05);
 }
 
 .like:disabled {

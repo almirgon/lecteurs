@@ -13,13 +13,21 @@ const Feed = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErros] = useState(false);
   const [status, setStatus] = useState(false);
-  
+
   const navigate = useNavigate();
-  const size = useWindowSize();
+  const widthSize = useWindowSize();
+
+  const updateReview = review => {
+    const idx = reviews.findIndex(el => el.idReview === review.idReview);
+    const newReviews = [...reviews];
+    newReviews[idx] = review;
+    setReviews(newReviews);
+    setSelectedItem(review);
+  };
 
   const clickReview = item => {
     setSelectedItem(item);
-    if (size.width > 768) {
+    if (widthSize.width > 768) {
       setShowModal(true);
     } else {
       navigate(`review-mobile/${item?.idReview}`);
@@ -31,11 +39,9 @@ const Feed = () => {
     ReviewService.getAllReviews().then(
       ({data, status}) => {
         if (status === 200) {
-          data?.response.forEach(item => {
-            setReviews(reviews => reviews.concat(item));
-            setLoading(false);
-          });
-        } 
+          setReviews(data?.response);
+          setLoading(false);
+        }
       },
       err => {
         setStatus(status);
@@ -57,10 +63,11 @@ const Feed = () => {
           reviews.map((item, index) => {
             return (
               <Card
-                click={() => clickReview(item)}
+                openReview={() => clickReview(item)}
                 key={index}
                 index={index}
                 item={item}
+                updateReview={updateReview}
               />
             );
           })
@@ -72,6 +79,7 @@ const Feed = () => {
       </div>
       {showModal && (
         <Modal
+          updateReview={updateReview}
           item={selectedItem}
           idReview={selectedItem?.idReview}
           close={setShowModal}

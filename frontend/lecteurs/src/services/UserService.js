@@ -8,10 +8,6 @@ class UserService {
   getUser(id) {
     return axiosInstance.get(`/user/${id}`);
   }
-
-  deleteUser(id) {
-    return axiosInstance.delete(`/user/${id}`);
-  }
 }
 
 export default new UserService();

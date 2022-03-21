@@ -52,7 +52,7 @@ const Register = () => {
   const navigate = useNavigate();
   const context = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const {setUsername, setAuthorized} = context;
+  const {setUsername, setAuthorized,setUserId} = context;
 
   const submit = (values, {setSubmitting}) => {
     setLoading(true);
@@ -92,6 +92,7 @@ const Register = () => {
                   response => {
                     if (response.status === 200) {
                       setAuthorized(true);
+                      setUserId(response.data.id)
                       setUsername(response.data.username);
                       navigate("/");
                     }
@@ -140,7 +141,7 @@ const Register = () => {
         onSubmit={submit}
         validationSchema={validations}
       >
-        {({isValid, isSubmitting}) => (
+        {({isValid, isSubmitting, values}) => (
           <Form className="form">
             <label htmlFor="firstName">Nome</label>
             <Field
@@ -180,6 +181,7 @@ const Register = () => {
             <ErrorMessage className="error" name="password" component="p" />
             <label htmlFor="passwordConfirm">Confirmar Senha</label>
             <Field
+            value={values.passwordConfirm || ""}
               className="input"
               type="password"
               name="passwordConfirm"
