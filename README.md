@@ -5,7 +5,7 @@
 </a>
 
 O Lecteurs é uma aplicação web que imita uma rede social para leitores compartilharem diferentes reviews sobre livros que leram. 
-[Acesse e teste a aplicação AQUI 😃] (https://velvety-blini-bab99e.netlify.app/)
+<a href="https://velvety-blini-bab99e.netlify.app/">Acesse e teste a aplicação AQUI 😃</a>
 
 ## Funcionalidades
 
