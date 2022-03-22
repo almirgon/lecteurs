@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from "react";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import Button from "../../components/Button/Button";
-import Rating from "react-rating";
+import {Rating} from "react-simple-star-rating";
 import styles from "./EditReview.module.css";
 import {useParams, useNavigate} from "react-router-dom";
 import ReviewService from "../../services/ReviewService";
@@ -177,11 +177,9 @@ const EditReview = () => {
                       }}
                     >
                       <Rating
-                        onChange={rate => handleRating(rate, setFieldValue)}
-                        initialRating={values.note || ""}
-                        emptySymbol="fa fa-star-o fa-2x"
-                        fullSymbol="fa fa-star fa-2x medium"
-                      />
+                onClick={rate => handleRating(rate, setFieldValue)}
+                ratingValue={values.note || ""}
+              />
                       <Button type="submit">{isSubmitting ? <Spinner/> : 'Editar'}</Button>
                     </div>
                   </Form>

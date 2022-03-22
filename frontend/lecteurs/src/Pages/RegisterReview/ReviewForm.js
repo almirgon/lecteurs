@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import * as Yup from "yup";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import Button from "../../components/Button/Button";
-import Rating from "react-rating";
+import {Rating} from "react-simple-star-rating";
 
 const validations = () => {
   return Yup.object().shape({
@@ -97,15 +97,10 @@ const ReviewForm = ({
               }}
             >
               <Rating
-                onChange={rate => handleRating(rate, setFieldValue)}
-                initialRating={ratingValue}
-                emptySymbol="fa fa-star-o fa-2x"
-                fullSymbol="fa fa-star fa-2x medium"
+                onClick={rate => handleRating(rate, setFieldValue)}
+                ratingValue={ratingValue}
               />
-              <Button
-                disabled={!isValid}
-                type="submit"
-              >
+              <Button disabled={!isValid} type="submit">
                 Proximo
               </Button>
             </div>

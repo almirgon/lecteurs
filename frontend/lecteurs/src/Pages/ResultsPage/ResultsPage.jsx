@@ -34,6 +34,11 @@ const ResultsPage = ({queryParam}) => {
     setSelectedItem(review);
   };
 
+
+  const stars = note => {
+   return parseInt(note) === 0 ? 0 : parseInt(note) === 20 ? 1 : parseInt(note) === 40 ? 2 : parseInt(note) === 60 ? 3 : parseInt(note) === 80 ? 4 : 5
+  }
+
   useEffect(() => {
     setNotFound(false);
     setResults([]);
@@ -78,7 +83,7 @@ const ResultsPage = ({queryParam}) => {
     <section>
       <h2>
         {queryParam === "note"
-          ? `Resultados do Filtro: ${query} ⭐`
+          ? `Resultados do Filtro: ${stars(query)} ⭐`
           : `Resultados da pesquisa`}
       </h2>
       {loading ? (

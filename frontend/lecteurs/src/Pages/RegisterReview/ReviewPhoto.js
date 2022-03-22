@@ -93,7 +93,7 @@ const ReviewPhoto = ({reviewData}) => {
           errors,
         }) => (
           <>
-            {imageList.length == 0 && !errors ? (
+            {imageList.length === 0 && !errors ? (
               <>
                 <div
                   className={styles.reviewPhoto}

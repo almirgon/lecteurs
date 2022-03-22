@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import Rating from "react-rating";
+import {Rating} from "react-simple-star-rating";
 import styles from "./Review.module.css";
 import {ReactComponent as Close} from "../../assets/close.svg";
 import {ReactComponent as Edit} from "../../assets/edit.svg";
@@ -20,12 +20,7 @@ const Review = ({stars, review, close, idUser, idReview}) => {
           }}
         />
         <h3 className="subTitle">Review</h3>
-        <Rating
-          emptySymbol="fa fa-star-o fa-2x"
-          fullSymbol="fa fa-star fa-2x medium"
-          readonly
-          initialRating={stars}
-        />
+        <Rating readonly size={25} ratingValue={stars} />
         {idUser === userId && (
           <Edit
             onClick={() => navigate(`/edit/review/${idReview}`)}

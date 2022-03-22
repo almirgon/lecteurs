@@ -4,7 +4,7 @@ import {useParams, useNavigate} from "react-router-dom";
 import ReviewService from "../../services/ReviewService";
 import dateAgo from "../../filters/dateAgo";
 import Loading from "../Loading/Loading";
-import Rating from "react-rating";
+import {Rating} from "react-simple-star-rating";
 import {UserContext} from "../../context/UserContext";
 import {ReactComponent as Edit} from "../../assets/edit.svg";
 
@@ -44,8 +44,7 @@ const ReviewMobile = () => {
               </span>
               <span>
                 <p className="paragraph">
-                  Postado por @{review?.username} (há 
-                  {dateAgo(review?.createdDate)})
+                  Postado por @{review?.username} ( Há {dateAgo(review?.createdDate)})
                 </p>
               </span>
             </div>
@@ -54,18 +53,13 @@ const ReviewMobile = () => {
               <p className="paragraph">Resumo: {review?.resume}</p>
             </div>
             <div>
-              <span>
+              <span style={{display: 'flex', gap: '0.5rem'}}>
                 <h3 className="subTitle">Review</h3>
-                <Rating
-                  emptySymbol="fa fa-star-o fa-2x"
-                  fullSymbol="fa fa-star fa-2x medium"
-                  readonly
-                  initialRating={review?.note}
-                />
+                <Rating readonly size={25} ratingValue={review?.note} />
                 {review?.idUser === userId && (
                   <Edit
                     onClick={() => navigate(`/edit/review/${review?.idReview}`)}
-                    className={styles.editButton}
+                    style={{cursor: 'pointer'}}
                   />
                 )}
               </span>

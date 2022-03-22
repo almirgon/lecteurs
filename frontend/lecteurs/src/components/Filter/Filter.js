@@ -54,50 +54,31 @@ const Filter = ({filterReview}) => {
                   Filtrar por nota
                 </p>
                 <div className={styles.starsGroup} role="group">
-                  <label>
-                    <Field type="radio" name="note" value="1" />
-                    <Rating
-                      emptySymbol="fa fa-star-o"
-                      fullSymbol="fa fa-star"
-                      readonly
-                      initialRating={1}
-                    />
+                <label>
+                    <Field type="radio" name="note" value="0" />
+                      0 ⭐
                   </label>
                   <label>
-                    <Field type="radio" name="note" value="2" />
-                    <Rating
-                      emptySymbol="fa fa-star-o"
-                      fullSymbol="fa fa-star "
-                      readonly
-                      initialRating={2}
-                    />
+                    <Field type="radio" name="note" value="20" />
+                      1 ⭐
                   </label>
                   <label>
-                    <Field type="radio" name="note" value="3" />
-                    <Rating
-                      emptySymbol="fa fa-star-o"
-                      fullSymbol="fa fa-star "
-                      readonly
-                      initialRating={3}
-                    />
+                    <Field type="radio" name="note" value="40" />
+                    2 ⭐
                   </label>
                   <label>
-                    <Field type="radio" name="note" value="4" />
-                    <Rating
-                      emptySymbol="fa fa-star-o"
-                      fullSymbol="fa fa-star "
-                      readonly
-                      initialRating={4}
-                    />
+                    <Field type="radio" name="note" value="60" />
+                    
+                    3 ⭐
+                    
                   </label>
                   <label>
-                    <Field type="radio" name="note" value="5" />
-                    <Rating
-                      emptySymbol="fa fa-star-o "
-                      fullSymbol="fa fa-star "
-                      readonly
-                      initialRating={5}
-                    />
+                    <Field type="radio" name="note" value="80" />
+                    4 ⭐
+                  </label>
+                  <label>
+                    <Field type="radio" name="note" value="100" />
+                    5 ⭐
                   </label>
                 </div>
                 <span className={styles.filterBtns}>
